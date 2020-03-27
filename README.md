@@ -6,7 +6,7 @@ Sam_Eldesouki: Ethan Sam/Merna Eldesouki
 
 ### Setup
 
-# How to run - (Windows Subsystem for Linux )
+### How to run - (Windows Subsystem for Linux )
 
 - start the MongoDB service:
     - `sudo systemctl enable mongodb.service`
@@ -25,14 +25,12 @@ Sam_Eldesouki: Ethan Sam/Merna Eldesouki
 - the default neo4j username is `neo4j` and the password is `password`
     - modify `utils/common.py` to match your neo4j username and password
 
-### To run, 
-
 
 ```bash terminal 
  python3 app.py 
 ```
 
-### Technologies
+### Dependencies
 
 - Python 3+
 - mongo 4+
