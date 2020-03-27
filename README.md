@@ -20,10 +20,8 @@ Sam_Eldesouki: Ethan Sam/Merna Eldesouki
   - For Ubuntu, use `sudo systemctl start neo4j.service`
 - In the file `/etc/neo4j/neo4j.conf` make sure that `dbms.directories.import` is set to `/var/lib/neo4j/import`.
 - the directory `/var/lib/neo4j/import/` should exist and your user should have read and write access to it:
-    - by default, this directory will be owned by the `neo4j` user and the `neo4j` group
-    - `usermod -a -G neo4j $(whoami)`
-- the default neo4j username is `neo4j` and the password is `password`
-    - modify `utils/common.py` to match your neo4j username and password
+
+- Change `utils/common.py` to match your neo4j username and password
 
 
 ```bash terminal 
@@ -61,13 +59,6 @@ the drug-disease pairs in a single query.
     - In order to do this, we create a neo4j database 
     modelling a graph of Hetionet and then querying the relevant paths
 
-### Diagrams
-
-#### Query 1
-![](https://media.discordapp.net/attachments/356260638294540289/642094055508934656/unknown.png?width=361&height=245https://media.discordapp.net/attachments/356260638294540289/642094055508934656/unknown.png?width=361&height=245)
-#### Query 2
-![](https://media.discordapp.net/attachments/356260638294540289/642095049727016988/unknown.png?width=702&height=443)
-![](https://media.discordapp.net/attachments/356260638294540289/642093988056137785/unknown.png?width=581&height=360)
 ### edges.tsv relationships
 
 #### Compound
