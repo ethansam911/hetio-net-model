@@ -75,7 +75,7 @@ def main():
         if choice == '1':
             msg = "Please enter a disease name: "
         else:
-            msg = "Please enter a drug name (empty for all possible drugs): "
+            msg = "Please enter a drug name (Enter "" for all potential compounds): "
 
         query = input(msg)
 

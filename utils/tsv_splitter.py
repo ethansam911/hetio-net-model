@@ -2,15 +2,14 @@ import os
 from pathlib import Path, PureWindowsPath
 from utils.common import NEO4J_HOME, node_types, edge_types
 #Accessing the node_types, edge_types
-
-# os.chdir('/mnt/c/Users/esam5/.Neo4jDesktop/neo4jDatabases/database-c173d399-1188-4720-afc0-4ced93a06bfb/installation-3.5.14')
+#os.chdir('/mnt/c/Users/esam5/.Neo4jDesktop/neo4jDatabases/database-c173d399-1188-4720-afc0-4ced93a06bfb/installation-3.5.14')
 def write_node_files():
     for node_type in node_types:
         out_file_path = os.path.join(NEO4J_HOME, "import", f"{node_type}.tsv")
         if os.path.exists(out_file_path):
             continue
         print(f"Writing file for {node_type} nodes to {out_file_path}")
-        command = f"echo 'id\tname\tkind' > {out_file_path}"
+        command = f"echo 'id\tname\tkin2d' > {out_file_path}"
         os.system(command)
         #a Unix command used to search files for the 
         #occurrence of a string of characters that matches a specified pattern.

@@ -26,7 +26,7 @@ abbreviations = {
         "A": "Anatomy",
         "r": "resembles", 
         "t": "treats", 
-        "p": "pilliates",
+        "p": "palliates",
         "u": "upregulates", 
         "d": "downregulates", 
         "b": "binds",
