@@ -62,7 +62,7 @@ class Neo4jController():
             RETURN DISTINCT c.name, d.name
             """
         else:
-            #Second Query,Find all Compoung-Disease pairs 
+            #Second Query,Find all Compound-Disease pairs 
             query = f"""
             MATCH (c:Compound {{name: "{compound}"}})-[:upregulates]->(:Gene)<-[:downregulates]-(d:Disease)
             WHERE NOT (c)-[:treats]->(d)
