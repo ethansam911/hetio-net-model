@@ -5,7 +5,7 @@ import os
 import pymongo
 
 
-class MongoController():
+class MongoDBController():
     "Singleton class to control mongo db connection."
 
     def __init__(self):
@@ -35,7 +35,9 @@ class MongoController():
         # a single document per disease because Create, Read, and Delete operations are fast but
         # update is costly. We have one db
         # interaction in this method, so communication cost is lowered.
-        # A disease should have the following structure:
+        # A disease has the following structure:
+
+
         # disease = {
         #     "id": str,
         #     "name": str,

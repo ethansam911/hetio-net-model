@@ -7,6 +7,7 @@ Sam_Eldesouki: Ethan Sam/Merna Eldesouki
 ### Setup
 
 ### How to run - (Windows Subsystem for Linux )
+#### Disclaimer - these steps have been tested on Windows Subsystem for Linux
 
 - start the MongoDB service:
     - `sudo systemctl enable mongodb.service`

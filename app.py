@@ -1,7 +1,7 @@
 import os
 from utils import tsv_splitter
 from utils.neo4j import Neo4jController
-from utils.mongo import MongoController
+from utils.mongo import MongoDBController
 
 
 
@@ -58,7 +58,7 @@ def main():
     tsv_splitter.write_edge_files()
 
     # Define databases for queries
-    mongo_controller = MongoController()
+    mongo_controller = MongoDBController()
     mongo_controller.create_db()
 
     neo4j_controller = Neo4jController()
