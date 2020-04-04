@@ -30,7 +30,7 @@ Sam_Eldesouki
 - For Ubuntu, use `sudo systemctl start neo4j.service`
 - In the file `<neo4j-home>\conf\neo4j.conf` make sure that `dbms.directories.import` is set to `<neo4j-home>\import`.
 - To see this through the GUI Client, use 
-  ![](https://media.discordapp.net/attachments/688449265227268174/695981233267539998/unknown.png?width=555&height=704)
+- ![](https://media.discordapp.net/attachments/688449265227268174/695981233267539998/unknown.png?width=555&height=704)
 - the directory `<neo4j-home>\import` should exist and your user should have read and write access to it:
 
 - Change `utils/common.py` to match the neo4j username and password, in the GUI this can be changed here:
