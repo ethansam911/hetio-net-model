@@ -52,4 +52,30 @@ class Neo4jController():
             """
             self.graph.run(query)
 
+    def query_db(self, compound):
+        if compound == "":
+            query = """
+            MATCH (c:Compound)-[:upregulates]->(:Gene)<-[:downregulates]-(d:Disease)
+            WHERE NOT (c)-[:treats]->(d)
+            MATCH (c:Compound)-[:downregulates]->(:Gene)<-[:upregulates]-(d:Disease)
+            WHERE NOT (c)-[:treats]->(d)
+            RETURN DISTINCT c.name, d.name
+            """
+        else:
+            query = f"""
+            MATCH (c:Compound {{name: "{compound}"}})-[:upregulates]->(:Gene)<-[:downregulates]-(d:Disease)
+            WHERE NOT (c)-[:treats]->(d)
+            MATCH (c:Compound {{name: "{compound}"}})-[:downregulates]->(:Gene)<-[:upregulates]-(d:Disease)
+            WHERE NOT (c)-[:treats]->(d)
+            RETURN DISTINCT c.name, d.name
+            """
+        results = self.graph.run(query).data()
+        if not results:
+            print("No Compound-Disease pairs found")
+        else:
+            n = 1
+            print("Compound-Disease pairs:")
+            for result in results:
+                print(f"\t{n}  {result['c.name']}-{result['d.name']}")
+                n+=1
 
