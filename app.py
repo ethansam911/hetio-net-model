@@ -1,6 +1,6 @@
 import os
 from utils import tsv_splitter
-# from utils.neo4j import Neo4jController
+from utils.neo4j import Neo4jController
 from utils.mongo import MongoDBController
 
 
@@ -61,8 +61,8 @@ def main():
     mongo_controller = MongoDBController()
     mongo_controller.create_db()
 
-    # neo4j_controller = Neo4jController()
-    # neo4j_controller.create_db()
+    neo4j_controller = Neo4jController()
+    neo4j_controller.create_db()
 
     print(WELCOME_MESSAGE)
 
