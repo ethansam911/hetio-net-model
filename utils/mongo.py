@@ -17,7 +17,7 @@ class MongoDBController():
         self.m_db = self.m_client["hetionet"]
         self.m_col = self.m_db["data"]
 
-    def create_db(self):
+    def create_database(self):
         "Populate document if it doesn't already exist."
         # count() is being deprecated, we need to check if document exists
         # this way instead of a mongo method
@@ -31,10 +31,10 @@ class MongoDBController():
         
         print("Creating MongoDB Database!")
 
-        # Group the diseases in a way that we have only
-        # a single document per disease because Create, Read, and Delete operations are fast but
-        # update is costly. We have one db
-        # interaction in this method, so communication cost is lowered.
+        # Group the diseases where we have a single document per disease
+        # because Create, Read, and Delete operations are fast but
+        # update is costly. We have one db interaction in this method, 
+        #so communication cost is lowered.
         # A disease has the following structure:
 
 
@@ -73,23 +73,8 @@ class MongoDBController():
                 "c": [],
             }
 
-        # In the relationship_map a relation key-value looks like this:
-        # "metaedge": [
-        #         disease position,
-        #         information position,
-        #         type of information,
-        #         relation to disease
-        #         ]
-
-        #  Relationship Abbreviations：
-        # CtD = Compound->Treats->Disease
-        # CpD = Compound->Palliates->Diseases
-        # DaG = Disease->Associates->Genes
-        # DuG = Disease->Upregulates Gene
-        # DdG = Disease->Downregulates Genes
-        # DlA = Disease->Localizes->Anatomy
-        # These are the relationships that we care about for the first query
-        relationship_map = {
+    
+        rel_mapping = {
             "CtD": ['target', 'source', "Compound", "treat"],
             "CpD": ['target', 'source', "Compound", "palliate"],
             "DaG": ['source', 'target', "Gene", "gene"],
@@ -102,9 +87,9 @@ class MongoDBController():
             reader = csv.DictReader(nodes_file, delimiter="\t")
             for row in reader:
                 edge = row['metaedge']
-                if edge in relationship_map.keys():
-                    diseases[row[relationship_map[edge][0]]][relationship_map[edge][3]].append(
-                        data[relationship_map[edge][2]][row[relationship_map[edge][1]]]
+                if edge in rel_mapping.keys():
+                    diseases[row[rel_mapping[edge][0]]][rel_mapping[edge][3]].append(
+                        data[rel_mapping[edge][2]][row[rel_mapping[edge][1]]]
                         )
 
         # decompose diseases{} such that each disease becomes a document in the collection
@@ -175,12 +160,9 @@ class MongoDBController():
             return m_join("\n\t", commas)[:-1]
 
         print(
-            f'For the disease "{query}", we found the following:\n',
-            f'ID:\n\t{id}\n',
-            f'Name:\n\t{name}\n',
-            f'Drugs that can Treat "{query}":\n\t{m_pretty(treat)}\n',
-            f'Drugs that can Palliate "{query}":\n\t{m_pretty(palliate)}\n',
-            f'Genes that cause "{query}":\n\t{m_pretty(gene)}\n',
+            f'For the disease "{query}", we found...\n', f'ID:\n\t{id}\n',
+            f'Name:\n\t{name}\n\n', f'Drugs that can Treat "{query}":\n\t{m_pretty(treat)}\n\n',
+            f'Drugs that can Palliate "{query}":\n\t{m_pretty(palliate)}\n\n', f'Genes that cause "{query}":\n\t{m_pretty(gene)}\n\n',
             f'Where "{query}" Occurs:\n\t{m_pretty(where)}\n',
             sep='\n\n'
             )

@@ -1,11 +1,10 @@
 import os
 from utils import tsv_splitter
-from utils.neo4j import Neo4jController
+# from utils.neo4j import Neo4jController
 from utils.mongo import MongoDBController
 
 
-
-QUERIES = '''
+CHOICES = '''
 1------Given a disease, what is its name, what are drug names that can treat or
 palliate this disease, what are gene names that cause this disease, and where
 this disease occurs?
@@ -26,7 +25,7 @@ and more. The network combines over 50 years of biomedical information into a
 single resource, consisting of 47,031 nodes (11 types) and 2,250,197
 relationships (24 types).
 
-This simulation will attempt to answer 2 queries:'''
+This simulation will answer 2 queries:'''
 
 EXITING = '''
 Y) Exit the program.
@@ -50,7 +49,7 @@ def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def main():
-    "Displays UI"
+    "Display UI"
 
     # take edge and node tsv files and split them up by type
     # Having trouble writing to the correct directory on windows 
@@ -58,18 +57,18 @@ def main():
     tsv_splitter.write_edge_files()
 
     # Define databases for queries
-    mongo_controller = MongoDBController()
-    mongo_controller.create_db()
+    mongodb_controller = MongoDBController()
+    mongodb_controller.create_database()
 
-    neo4j_controller = Neo4jController()
-    neo4j_controller.create_db()
+    # neo4j_controller = Neo4jController()
+    # neo4j_controller.create_database()
 
     print(WELCOME_MESSAGE)
 
     while True:
         # Receive the query user choice
-        print('Query Choices:', QUERIES)
-        choice = user_input(QUERIES, ('1', '2'))
+        print('Query Choices:', CHOICES)
+        choice = user_input(CHOICES, ('1', '2'))
 
         # Using mongoDB query
         if choice == '1':
@@ -80,13 +79,13 @@ def main():
         query = input(msg)
 
         # Select the query, and query the choice
-        controller = mongo_controller if choice == '1' else neo4j_controller
+        controller = mongodb_controller if choice == '1' else neo4j_controller
         controller.query_db(query)
 
         # Exit Sequence
         print()
-        print('Would you like to exit the program now?', EXITING)
-        choice = user_input(EXITING, ('Y', 'N'))
+        print('Would you like to exit?', EXITING)
+        choice = user_input(EXITING, ('y', 'n'))
         if choice == 'Y':
             break
 
@@ -94,5 +93,5 @@ def main():
 
 
 if __name__ == "__main__":
-    # Run main program
+    # Run the main program
     main()

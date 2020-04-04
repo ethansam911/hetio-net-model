@@ -12,10 +12,10 @@ class Neo4jController():
     def __init__(self):
         self.graph = Graph("bolt://localhost:7687", user=NEO4J_USERNAME, password=NEO4J_PASSWORD)
     #Delete all nodes and relationships in the database
-    def clear_db(self):
+    def clear_database(self):
         self.graph.delete_all()
-
-    def create_db(self):
+    
+    def create_database(self):
         query = "MATCH (n) RETURN COUNT(n);"
         result = self.graph.run(query).data()
         if result[0]['COUNT(n)'] != 0:
@@ -52,31 +52,4 @@ class Neo4jController():
             """
             self.graph.run(query)
 
-    def query_db(self, compound):
-        if compound == "":
-            query = """
-            MATCH (c:Compound)-[:upregulates]->(:Gene)<-[:downregulates]-(d:Disease)
-            WHERE NOT (c)-[:treats]->(d)
-            MATCH (c:Compound)-[:downregulates]->(:Gene)<-[:upregulates]-(d:Disease)
-            WHERE NOT (c)-[:treats]->(d)
-            RETURN DISTINCT c.name, d.name
-            """
-        else:
-            #Second Query,Find all Compound-Disease pairs 
-            query = f"""
-            MATCH (c:Compound {{name: "{compound}"}})-[:upregulates]->(:Gene)<-[:downregulates]-(d:Disease)
-            WHERE NOT (c)-[:treats]->(d)
-            MATCH (c:Compound {{name: "{compound}"}})-[:downregulates]->(:Gene)<-[:upregulates]-(d:Disease)
-            WHERE NOT (c)-[:treats]->(d)
-            RETURN DISTINCT c.name, d.name
-            """
-        results = self.graph.run(query).data()
-        if not results:
-            print("No Compound-Disease pairs found")
-        else:
-            i = 0
-            print("Compound-Disease pairs:")
-            for result in results:
-                #New f-strings in python 3.6
-                print(f"{i+1}\t{result['c.name']}-{result['d.name']}") 
-                i+=1
+
