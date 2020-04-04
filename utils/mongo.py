@@ -64,6 +64,7 @@ class MongoDBController():
 
         for k, v in data['Disease'].items():
             diseases[k] = {
+                #We identify k with kind
                 'id': k,
                 'name': v,
                 "treat": [],
@@ -80,14 +81,15 @@ class MongoDBController():
         #         relation to disease
         #         ]
 
-        #  Relationships:
+        #  Relationship Abbreviations：
         # CtD = Compound->Treats->Disease
         # CpD = Compound->Palliates->Diseases
         # DaG = Disease->Associates->Genes
         # DuG = Disease->Upregulates Gene
         # DdG = Disease->Downregulates Genes
         # DlA = Disease->Localizes->Anatomy
-        r_map = {
+        # These are the relationships that we care about for the first query
+        relationship_map = {
             "CtD": ['target', 'source', "Compound", "treat"],
             "CpD": ['target', 'source', "Compound", "palliate"],
             "DaG": ['source', 'target', "Gene", "gene"],
@@ -100,12 +102,13 @@ class MongoDBController():
             reader = csv.DictReader(nodes_file, delimiter="\t")
             for row in reader:
                 edge = row['metaedge']
-                if edge in r_map.keys():
-                    diseases[row[r_map[edge][0]]][r_map[edge][3]].append(
-                        data[r_map[edge][2]][row[r_map[edge][1]]]
+                if edge in relationship_map.keys():
+                    diseases[row[relationship_map[edge][0]]][relationship_map[edge][3]].append(
+                        data[relationship_map[edge][2]][row[relationship_map[edge][1]]]
                         )
 
         # decompose diseases{} such that each disease becomes a document in the collection
+        # m_col is a colleciton, we decompose the diseases{} object and insert each disease as a document
         self.m_col.insert([v for _, v in diseases.items()])
 
     def query_db(self, query):
@@ -123,7 +126,7 @@ class MongoDBController():
             cur = self.m_col.find({"name": query})
         else:
             cur_id.rewind()  # to iterate again, we need to reset cursor
-            cur = cur_id
+            cur = cur_id     #cursor is a document position within the collection 
 
         cols = 0
         id = ""
@@ -139,10 +142,12 @@ class MongoDBController():
             name = i['name']
             # Create Read and Delete are fast, and Update is slow we get data split into multiple
             # documents
+            #Extends 
             treat.extend(i['treat'])
             palliate.extend(i['palliate'])
             gene.extend(i['gene'])
             where.extend(i['where'])
+            #Think about this like a 2D array, every column is another document 
             cols += 1
 
         # If nothing is found, we early exit
@@ -160,10 +165,10 @@ class MongoDBController():
             if not items:
                 return "None"
 
-            # separate list into groups of 5
+            # separate list into groups of 10
             items = [items[i:i+10] for i in range(0, len(items), 10)]
 
-            # join the groups of 5 to be comma delimited strs
+            # join the groups of 10 to be comma delimited strs
             commas = map(lambda x: m_join(", ", x) + ',', items)
 
             # Join all groups with newlines and take out  commas on last line
