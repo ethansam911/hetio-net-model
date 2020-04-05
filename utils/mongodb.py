@@ -150,7 +150,7 @@ class MongoDBController():
             if not items:
                 return "None"
 
-            # separate list into groups of 10
+            # separate python list into groups of 10
             items = [items[i:i+10] for i in range(0, len(items), 10)]
 
             # join the groups of 10 to be comma delimited strs

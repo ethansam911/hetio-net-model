@@ -43,5 +43,6 @@ NEO4J_HOME = "/mnt/c/Users/esam5/.Neo4jDesktop/neo4jDatabases/database-c173d399-
 
 #This is our neobolt endpoint, this will appear  
 NEO4J_URL = "localhost:7687"
+#Username and password to access the neo4J database
 NEO4J_USERNAME = "neo4j"
 NEO4J_PASSWORD = "password"

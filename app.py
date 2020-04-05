@@ -1,7 +1,7 @@
 import os
-from utils import tsv_splitter
+from utils import file_splitter
 from utils.neo4j import Neo4jController
-from utils.mongo import MongoDBController
+from utils.mongodb import MongoDBController
 
 
 CHOICES = '''
@@ -53,8 +53,8 @@ def main():
 
     # take edge and node tsv files and split them up by type
     # Having trouble writing to the correct directory on windows 
-    tsv_splitter.write_node_files()
-    tsv_splitter.write_edge_files()
+    file_splitter.write_node_files()
+    file_splitter.write_edge_files()
 
     # Define databases for queries
     mongodb_controller = MongoDBController()
@@ -86,7 +86,7 @@ def main():
         print()
         print('Would you like to exit?', EXITING)
         choice = user_input(EXITING, ('y', 'n'))
-        if choice == 'Y':
+        if choice == 'y':
             break
 
     print('EXITING...')

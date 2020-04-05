@@ -21,6 +21,7 @@ def write_edge_files():
         os.system(command)
 
 def write_node_files():
+    #iterate through the node types
     for node_type in node_types:
         out_file_path = os.path.join(NEO4J_HOME, "import", f"{node_type}.tsv")
         if os.path.exists(out_file_path):
