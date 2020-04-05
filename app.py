@@ -29,14 +29,14 @@ def main():
         # Using mongoDB query
         if choice == '1':
             msg = "Please enter a disease name: "
+            query = input(msg)
         else:
-            msg = "Please enter a drug name (Just press enter for all potential compounds): "
+            neo4j_controller.query_db() 
 
-        query = input(msg)
 
         # Select the query, and query the choice
-        controller = mongodb_controller if choice == '1' else neo4j_controller
-        controller.query_db(query)
+        if choice == '1':
+            mongodb_controller.query_db(query)
 
         # Exit Sequence
         print()

@@ -35,17 +35,7 @@ class MongoDBController():
         # because Create, Read, and Delete operations are fast but
         # update is expensive. We have one db interaction in this method, 
         # so communication cost is lowered.
-        # A disease has the following structure:
 
-
-        # disease = {
-        #     "id": str,
-        #     "name": str,
-        #     "treat": [str],
-        #     "palliate": [str],
-        #     "gene": [str],
-        #     "where": [str],
-        #     }
         diseases = {}
 
         # this is to splice the data in nodes.tsv so we can add the
@@ -70,7 +60,7 @@ class MongoDBController():
                 "treat": [],
                 "palliate": [],
                 "gene": [],
-                "c": [],
+                "column": [],
             }
 
     
@@ -125,8 +115,7 @@ class MongoDBController():
             # set name and id if found
             id = i['id']
             name = i['name']
-            # Create Read and Delete are fast, and Update is slow we get data split into multiple
-            # documents
+            # Create Read and Delete are fast, and Update is slow we get data split into multiple documents
             #Extends 
             treat.extend(i['treat'])
             palliate.extend(i['palliate'])
