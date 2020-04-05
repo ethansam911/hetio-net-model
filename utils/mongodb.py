@@ -4,23 +4,23 @@ import csv
 import os
 import pymongo
 
-
+#Mediates our mongoDB connection using pymongo
 class MongoDBController():
-    "Singleton class to control mongo db connection."
 
     def __init__(self):
         "Initialize variables for later usage."
         #self represents the instance of the class. By using the “self” 
         #keyword we can access the attributes and methods of the class in python
+        #Get the current working directory
         self.data_dir = os.path.join(os.getcwd(), "data")
+        #Pymongo connection string
         self.m_client = pymongo.MongoClient("mongodb://localhost:27017/")
         self.m_db = self.m_client["hetionet"]
         self.m_col = self.m_db["data"]
 
     def create_database(self):
         "Populate document if it doesn't already exist."
-        # count() is being deprecated, we need to check if document exists
-        # this way instead of a mongo method
+        #If at least one document exists within our collection, we've found the mongo database
         cols = 0
         for _ in self.m_col.find().limit(1):
             cols += 1
@@ -33,8 +33,8 @@ class MongoDBController():
 
         # Group the diseases where we have a single document per disease
         # because Create, Read, and Delete operations are fast but
-        # update is costly. We have one db interaction in this method, 
-        #so communication cost is lowered.
+        # update is expensive. We have one db interaction in this method, 
+        # so communication cost is lowered.
         # A disease has the following structure:
 
 

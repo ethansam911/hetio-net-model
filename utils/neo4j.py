@@ -10,6 +10,7 @@ from utils.common import node_types, edge_types, abbreviations,\
 class Neo4jController():
     #Our bolt connection needs to begin once we start our database in Neo4j Desktop
     def __init__(self):
+        #Our neo4j browser
         self.graph = Graph("bolt://localhost:7687", user=NEO4J_USERNAME, password=NEO4J_PASSWORD)
     #Delete all nodes and relationships in the database
     def clear_database(self):
